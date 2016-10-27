@@ -1,0 +1,9 @@
+
+<div>
+    <div class="row" *ngFor="let maligne of this.Champs">
+      <div class="col-md-1" *ngFor="let _case of maligne"  >
+        <app-case [aze]="_case"></app-case>
+      </div>
+    </div>
+</div>
+
