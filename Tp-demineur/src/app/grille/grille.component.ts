@@ -36,7 +36,16 @@ export class GrilleComponent implements OnInit {
       }
       champMines.push(ligne);
     }
+    //placer les mines
     this.placerMine(champMines, 10);
+
+    //calculer le nombre des mines qui entourent la case séléctionnée
+    for(let i=0; i < 9; i++){
+      for(let j=0; j<9; j++){
+        this.calculateNumber(champMines, i, j);
+      }
+    }
+
       return champMines;
   }
 
@@ -56,4 +65,95 @@ export class GrilleComponent implements OnInit {
     return acase;
   }
 
+  calculateNumber(ChampMine: CaseComponent[][], row: number, column:number) {
+    let thisCase = this.getCase(ChampMine, row, column);
+
+    // On vérifie d'abord qu'on est pas sur une mine
+    if(thisCase.content === "mine") {
+      return;
+    }
+
+    let mineCount:number = 0;
+
+    // Vérifie le contenu de la ligne audessus si ce n'est pas la première
+    if(row > 0) {
+      // vérifie le contenu de la colonne de gauche si on est pas sur la première
+      if(column > 0) {
+        // récupère le spot juste au dessus à gauche
+        let spot:CaseComponent = this.getCase(ChampMine, row - 1, column - 1);
+        if(spot.content === "mine") {
+          mineCount++;
+        }
+      }
+
+      // récupère le spot juste au-dessus
+      var spot = this.getCase(ChampMine, row - 1, column);
+      if(spot.content === "mine") {
+        mineCount++;
+      }
+
+      // vérifie le contenu de la colonne de droite si on est pas sur la dernière
+      if(column < 8) {
+        // récupère le spot juste au-dessus à droite
+        var spot = this.getCase(ChampMine, row - 1, column + 1);
+        if(spot.content === "mine") {
+          mineCount++;
+        }
+      }
+    }
+
+    // vérifie le contenu de la colonne de gauche si on est pas sur la première
+    if(column > 0) {
+      // récupère le spot juste à gauche
+      var spot = this.getCase(ChampMine, row, column - 1);
+      if(spot.content === "mine") {
+        mineCount++;
+      }
+    }
+
+    // vérifie le contenu de la colonne de droite si on est pas sur la dernière
+    if(column < 8) {
+      // récupère le spot juste à droite
+      var spot = this.getCase(ChampMine, row, column + 1);
+      if(spot.content === "mine") {
+        mineCount++;
+      }
+    }
+
+    // Vérifie le contenu  de la ligne en dessous si on est pas sur a dernière
+    if(row < 8) {
+      // vérifie le contenu de la colonne de gauche si on est pas sur la première
+      if(column > 0) {
+        // récupère le spot juste en-dessous à gauche
+        var spot = this.getCase(ChampMine, row + 1, column - 1);
+        if(spot.content === "mine") {
+          mineCount++;
+        }
+      }
+
+      // récupère le spot juste en-dessous
+      var spot = this.getCase(ChampMine, row + 1, column);
+      if(spot.content === "mine") {
+        mineCount++;
+      }
+
+      // vérifie la colonne à droite si ceci n'est pas la dernière
+      if(column < 8) {
+        // get the spot below and to the right
+        var spot = this.getCase(ChampMine, row + 1, column + 1);
+        if(spot.content === "mine") {
+          mineCount++;
+        }
+      }
+    }
+
+    if(mineCount > 0) {
+      thisCase.content = mineCount.toString();
+    }
+  }
+
+
+
 }
+
+
