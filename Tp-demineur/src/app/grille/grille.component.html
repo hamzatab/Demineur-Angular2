@@ -1,8 +1,8 @@
 
 <div>
-    <div class="row" *ngFor="let maligne of this.Champs">
-      <div class="col-md-1" *ngFor="let _case of maligne"  >
-        <app-case [aze]="_case"></app-case>
+    <div class="row" *ngFor="let maligne of this.Champs let i = index">
+      <div class="col-md-1" *ngFor="let _case of maligne let j = index" >
+        <app-case [aze]="_case" (click)="this.Champs=click2(i,j)"  ></app-case><!-- [aze]="_case"-->
       </div>
     </div>
 </div>

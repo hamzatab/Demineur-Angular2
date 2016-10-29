@@ -19,6 +19,7 @@ import { CaseComponent } from './case/case.component';
     HttpModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+
 })
 export class AppModule { }

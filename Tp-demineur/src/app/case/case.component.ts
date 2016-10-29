@@ -6,149 +6,108 @@ import { GrilleComponent } from '../grille/grille.component.ts'
 @Component({
   selector: 'app-case',
   templateUrl: './case.component.html',
-  styleUrls: ['./case.component.css']
+  styleUrls: ['./case.component.css'],
+
 })
 export class CaseComponent implements OnInit {
 
   @Input() aze : CaseComponent;
-  @Input() refgrille : GrilleComponent;
+
+
   isCached : boolean;
   img : string;
-  content: String;
+  content: string;
 
   constructor() {
-
-    this.isCached = true;
-    this.img = '../assets/covered.png';
 
   }
 
   ngOnInit() {
+
+    this.img ='../assets/covered.png';
+
   }
 
   monclick(){
-    //alert(this.isCached+" "+this.content);
-    this.isCached = false;
-    if(this.aze.content === 'empty')
-    this.img = '../assets/empty.png';
 
-    if(this.aze.content === 'mine')
+
+   // alert(" aze :"+this.aze.isCached+this.aze.content+this.aze.img);
+    //let magrille:GrilleComponent = new GrilleComponent();
+    //magrille.Champs = this.refgrille.Champs;
+    //alert(magrille);
+    //this.decouvrirCase(this.refgrille.Champs, row, col);
+    //this.isCached = false;
+
+    if(this.aze.content === 'empty'){
+
+      this.aze.img = '../assets/empty.png';
+      this.img = '../assets/empty.png';
+     // this.aze.img = '../assets/empty.png';
+     // this.content = this.aze.content;
+     // this.isCached = this.aze.isCached;
+    }
+
+
+    if(this.aze.content === 'mine'){
+
+      this.aze.img = '../assets/mine.png';
       this.img = '../assets/mine.png';
+    }
 
-    if(this.aze.content === '1')
+
+    if(this.aze.content === '1'){
+      this.aze.isCached=false;
+      this.aze.img = '../assets/number-1.png';
       this.img = '../assets/number-1.png';
+    }
 
-    if(this.aze.content === '2')
+    if(this.aze.content === '2'){
+      this.aze.isCached=false;
+      this.aze.img = '../assets/number-2.png';
       this.img = '../assets/number-2.png';
+    }
 
-    if(this.aze.content === '3')
+    if(this.aze.content === '3'){
+      this.aze.isCached=false;
+      this.aze.img = '../assets/number-3.png';
       this.img = '../assets/number-3.png';
+    }
 
-    if(this.aze.content === '4')
+    if(this.aze.content === '4'){
+      this.aze.isCached=false;
+      this.aze.img = '../assets/number-4.png';
       this.img = '../assets/number-4.png';
+    }
 
-    if(this.aze.content === '5')
+    if(this.aze.content === '5'){
+      this.aze.isCached=false;
+      this.aze.img = '../assets/number-5.png';
       this.img = '../assets/number-5.png';
+    }
 
-    if(this.aze.content === '6')
+    if(this.aze.content === '6'){
+      this.aze.isCached=false;
+      this.aze.img = '../assets/number-6.png';
       this.img = '../assets/number-6.png';
+    }
 
-    if(this.aze.content === '7')
+    if(this.aze.content === '7'){
+      this.aze.isCached=false;
+      this.aze.img = '../assets/number-7.png';
       this.img = '../assets/number-7.png';
+    }
 
-    if(this.aze.content === '8')
+    if(this.aze.content === '8'){
+      this.aze.isCached=false;
+      this.aze.img = '../assets/number-8.png';
       this.img = '../assets/number-8.png';
+    }
    // alert(this.isCached+" "+this.aze.content);
+
+  //  alert("nrml : " +this.isCached+this.content+this.img+"     aze :"+this.aze.isCached+this.aze.content+this.aze.img);
   }
 
 
-/*
-  decouvrirCase(ChampMine: CaseComponent[][], row: number, column:number) {
-    let thisCase = this.refgrille.getCase(ChampMine, row, column);
 
-    // On vérifie d'abord qu'on est pas sur une mine
-    if (thisCase.content === "mine")
-      return;
-    if (thisCase.isCached && thisCase.content == "empty") {
 
-      let mineCount: number = 0;
-
-      // Vérifie le contenu de la ligne audessus si ce n'est pas la première
-      if (row > 0) {
-        // vérifie le contenu de la colonne de gauche si on est pas sur la première
-        if (column > 0) {
-          // récupère le spot juste au dessus à gauche
-          let spot: CaseComponent = this.refgrille.getCase(ChampMine, row - 1, column - 1);
-          if (spot.content === "mine") {
-            return;
-          }
-          spot.isCached = false;
-        }
-
-        // récupère le spot juste au-dessus
-        var spot = this.refgrille.getCase(ChampMine, row - 1, column);
-        if (spot.content === "mine") {
-          mineCount++;
-        }
-
-        // vérifie le contenu de la colonne de droite si on est pas sur la dernière
-        if (column < 8) {
-          // récupère le spot juste au-dessus à droite
-          var spot = this.getCase(ChampMine, row - 1, column + 1);
-          if (spot.content === "mine") {
-            mineCount++;
-          }
-        }
-      }
-
-      // vérifie le contenu de la colonne de gauche si on est pas sur la première
-      if (column > 0) {
-        // récupère le spot juste à gauche
-        var spot = this.getCase(ChampMine, row, column - 1);
-        if (spot.content === "mine") {
-          mineCount++;
-        }
-      }
-
-      // vérifie le contenu de la colonne de droite si on est pas sur la dernière
-      if (column < 8) {
-        // récupère le spot juste à droite
-        var spot = this.getCase(ChampMine, row, column + 1);
-        if (spot.content === "mine") {
-          mineCount++;
-        }
-      }
-
-      // Vérifie le contenu  de la ligne en dessous si on est pas sur a dernière
-      if (row < 8) {
-        // vérifie le contenu de la colonne de gauche si on est pas sur la première
-        if (column > 0) {
-          // récupère le spot juste en-dessous à gauche
-          var spot = this.getCase(ChampMine, row + 1, column - 1);
-          if (spot.content === "mine") {
-            mineCount++;
-          }
-        }
-
-        // récupère le spot juste en-dessous
-        var spot = this.getCase(ChampMine, row + 1, column);
-        if (spot.content === "mine") {
-          mineCount++;
-        }
-
-        // vérifie la colonne à droite si ceci n'est pas la dernière
-        if (column < 8) {
-          // get the spot below and to the right
-          var spot = this.getCase(ChampMine, row + 1, column + 1);
-          if (spot.content === "mine") {
-            mineCount++;
-          }
-        }
-      }
-
-      if (mineCount > 0) {
-        thisCase.content = mineCount.toString();
-      }
-    }
-  }*/
 }
