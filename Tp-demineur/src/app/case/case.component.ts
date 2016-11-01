@@ -30,14 +30,13 @@ export class CaseComponent implements OnInit {
 
   monclick(){
 
-
    // alert(" aze :"+this.aze.isCached+this.aze.content+this.aze.img);
     //let magrille:GrilleComponent = new GrilleComponent();
     //magrille.Champs = this.refgrille.Champs;
     //alert(magrille);
     //this.decouvrirCase(this.refgrille.Champs, row, col);
     //this.isCached = false;
-
+    //alert(this.aze.isCached);
     if(this.aze.content === 'empty'){
 
       this.aze.img = '../assets/empty.png';
