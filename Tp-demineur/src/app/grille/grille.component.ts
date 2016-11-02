@@ -13,16 +13,17 @@ import {Input, Output} from "@angular/core/src/metadata/directives";
 export class GrilleComponent implements OnInit {
 
   @Input() chp : GrilleComponent;
-     Champs = new Array<Array<CaseComponent>>();
-
-
+  Champs = new Array<Array<CaseComponent>>();
+  nbMine:number;
+  nombreLignes:number =9;
+  nombreColonnes:number=9;
   constructor() {
 
   }
 
   ngOnInit() {
-
-   this.Champs=  this.CreerChampMines(9,9);
+    this.nbMine = 10;
+   this.Champs=  this.CreerChampMines(this.nombreLignes,this.nombreColonnes);
   }
 
   CreerChampMines(numLigne: number, numCol: number): CaseComponent[][]{
@@ -42,7 +43,7 @@ export class GrilleComponent implements OnInit {
       champMines.push(ligne);
     }
     //placer les mines
-    this.placerMine(champMines, 10);
+    this.placerMine(champMines, this.nbMine);
 
     //calculer le nombre des mines qui entourent la case séléctionnée
     for(let i=0; i < champMines.length; i++){
@@ -98,7 +99,7 @@ export class GrilleComponent implements OnInit {
       }
 
       // vérifie le contenu de la colonne de droite si on est pas sur la dernière
-      if(column < 8) {
+      if(column < this.nombreColonnes  - 1) {
         // récupère le spot juste au-dessus à droite
         var spot = this.getCase(ChampMine, row - 1, column + 1);
         if(spot.content === "mine") {
@@ -117,7 +118,7 @@ export class GrilleComponent implements OnInit {
     }
 
     // vérifie le contenu de la colonne de droite si on est pas sur la dernière
-    if(column < 8) {
+    if(column < this.nombreColonnes - 1) {
       // récupère le spot juste à droite
       var spot = this.getCase(ChampMine, row, column + 1);
       if(spot.content === "mine") {
@@ -126,7 +127,7 @@ export class GrilleComponent implements OnInit {
     }
 
     // Vérifie le contenu  de la ligne en dessous si on est pas sur a dernière
-    if(row < 8) {
+    if(row < this.nombreLignes - 1 ) {
       // vérifie le contenu de la colonne de gauche si on est pas sur la première
       if(column > 0) {
         // récupère le spot juste en-dessous à gauche
@@ -143,7 +144,7 @@ export class GrilleComponent implements OnInit {
       }
 
       // vérifie la colonne à droite si ceci n'est pas la dernière
-      if(column < 8) {
+      if(column < this.nombreColonnes - 1) {
         // get the spot below and to the right
         var spot = this.getCase(ChampMine, row + 1, column + 1);
         if(spot.content === "mine") {
@@ -178,7 +179,7 @@ export class GrilleComponent implements OnInit {
 
 
           // vérifie le contenu de la colonne de droite si on est pas sur la dernière
-          if(column < 8) {
+          if(column < this.nombreLignes - 1) {
             // récupère le spot juste au-dessus à droite
             ChampMine = this.decouvrirCase2(ChampMine, row - 1, column + 1);
 
@@ -193,14 +194,14 @@ export class GrilleComponent implements OnInit {
         }
 
         // vérifie le contenu de la colonne de droite si on est pas sur la dernière
-        if(column < 8) {
+        if(column < this.nombreColonnes - 1) {
           // récupère le spot juste à droite
           ChampMine = this.decouvrirCase2(ChampMine, row, column + 1);
 
         }
 
         // Vérifie le contenu  de la ligne en dessous si on est pas sur a dernière
-        if(row < 8) {
+        if(row < this.nombreLignes - 1) {
           // vérifie le contenu de la colonne de gauche si on est pas sur la première
           if(column > 0) {
             // récupère le spot juste en-dessous à gauche
@@ -213,7 +214,7 @@ export class GrilleComponent implements OnInit {
 
 
           // vérifie la colonne à droite si ceci n'est pas la dernière
-          if(column < 8) {
+          if(column < this.nombreColonnes - 1) {
             // get the spot below and to the right
             ChampMine = this.decouvrirCase2(ChampMine, row + 1, column + 1);
 
@@ -358,7 +359,22 @@ export class GrilleComponent implements OnInit {
 
       }
 
+  estGagne(ChampMine: CaseComponent[][], nbMine:number):boolean{
+    let nbrCellWithoutMine = (ChampMine.length * ChampMine[0].length) - nbMine;
+    let nbr:number =0;
+    for(let i=0; i < ChampMine.length; i++){
+      for(let j=0; j<ChampMine[0].length; j++){
+        if(ChampMine[i][j].isCached = false && ChampMine[i][j].content != 'mine'){
+          nbr++;
+        }
+      }
+    }
 
+    if (nbr === nbrCellWithoutMine){
+      return true;
+    }
+    else return false;
+  }
 
 }
 
