@@ -1,4 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
-.col-md-1{
+.col-lg-4{
   width: 0%;
+
+}
+
+#np{
+  margin-top: 30px;
 }

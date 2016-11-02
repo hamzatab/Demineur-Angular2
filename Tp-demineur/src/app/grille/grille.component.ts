@@ -222,7 +222,8 @@ export class GrilleComponent implements OnInit {
         }
       }
       else if (thisCase.content === "mine"){
-        alert("miiine !!!");
+        this.estPerdu();
+        thisCase.img = '../assets/mine-wrong.png';
       }
       else{
         thisCase.img = this.majImg(thisCase.content);
@@ -328,6 +329,13 @@ export class GrilleComponent implements OnInit {
    return this.decouvrirCase2(this.Champs, row, col);
   }
 
+// pour vérifier si le jouer a gagné ou pas !
+  verif(){
+    if(this.estGagne(this.nbMine)) {
+      alert("VOUS AVEZ GAGNE!!!");
+    }
+  }
+
   majImg(cont: string):string{
 
     if(cont === 'empty')
@@ -359,12 +367,12 @@ export class GrilleComponent implements OnInit {
 
       }
 
-  estGagne(ChampMine: CaseComponent[][], nbMine:number):boolean{
-    let nbrCellWithoutMine = (ChampMine.length * ChampMine[0].length) - nbMine;
+  estGagne( nbMine:number):boolean{
+    let nbrCellWithoutMine = (this.Champs.length * this.Champs[0].length) - nbMine;
     let nbr:number =0;
-    for(let i=0; i < ChampMine.length; i++){
-      for(let j=0; j<ChampMine[0].length; j++){
-        if(ChampMine[i][j].isCached = false && ChampMine[i][j].content != 'mine'){
+    for(let i=0; i < this.Champs.length; i++){
+      for(let j=0; j<this.Champs[0].length; j++){
+        if(this.Champs[i][j].isCached === false && this.Champs[i][j].content != 'mine'){
           nbr++;
         }
       }
@@ -376,6 +384,20 @@ export class GrilleComponent implements OnInit {
     else return false;
   }
 
+  estPerdu(){
+    for(let i=0; i < this.Champs.length; i++){
+      for(let j=0; j<this.Champs[0].length; j++){
+        if(this.Champs[i][j].isCached === true && this.Champs[i][j].content === 'mine'){
+          this.Champs[i][j].img = '../assets/mine.png';
+        }
+      }
+    }
+    alert("VOUS AVEZ PERDU :( :( !!!");
+  }
+
+  NouvellePartie(){
+    this.Champs=  this.CreerChampMines(this.nombreLignes,this.nombreColonnes);
+  }
 }
 
 
