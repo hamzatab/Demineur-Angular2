@@ -160,7 +160,7 @@ export class GrilleComponent implements OnInit {
   decouvrirCase2(ChampMine: CaseComponent[][], row: number, column:number): CaseComponent[][] {
 
     let thisCase = this.getCase(ChampMine, row, column);
-    if(thisCase.isCached){
+    if(thisCase.isCached && thisCase.img != '../assets/flag-mine.png'){
       if(thisCase.content === "empty"){
 
         thisCase.isCached = false;

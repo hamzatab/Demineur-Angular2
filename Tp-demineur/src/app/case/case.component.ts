@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Input} from "@angular/core/src/metadata/directives";
-import { GrilleComponent } from '../grille/grille.component.ts'
-
+import { GrilleComponent } from '../grille/grille.component.ts';
+//import { Component, enableProdMode, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-case',
@@ -37,13 +37,14 @@ export class CaseComponent implements OnInit {
     //this.decouvrirCase(this.refgrille.Champs, row, col);
     //this.isCached = false;
     //alert(this.aze.isCached);
-    if(this.aze.content === 'empty'){
+    if(this.aze.img != '../assets/flag-mine.png'){
+      if(this.aze.content === 'empty'){
 
       this.aze.img = '../assets/empty.png';
       this.img = '../assets/empty.png';
-     // this.aze.img = '../assets/empty.png';
-     // this.content = this.aze.content;
-     // this.isCached = this.aze.isCached;
+      // this.aze.img = '../assets/empty.png';
+      // this.content = this.aze.content;
+      // this.isCached = this.aze.isCached;
     }
 
 
@@ -101,11 +102,24 @@ export class CaseComponent implements OnInit {
       this.aze.img = '../assets/number-8.png';
       this.img = '../assets/number-8.png';
     }
-   // alert(this.isCached+" "+this.aze.content);
+    // alert(this.isCached+" "+this.aze.content);
 
-  //  alert("nrml : " +this.isCached+this.content+this.img+"     aze :"+this.aze.isCached+this.aze.content+this.aze.img);
+    //  alert("nrml : " +this.isCached+this.content+this.img+"     aze :"+this.aze.isCached+this.aze.content+this.aze.img);
   }
+    }
 
+
+  public onOtherContextMenu($event: Event): void {
+    console.log("toto");
+    if(this.aze.img === '../assets/covered.png')
+      this.aze.img = '../assets/flag-mine.png';
+    else if(this.aze.img === '../assets/flag-mine.png')
+      this.aze.img = '../assets/flag-suspect.png';
+    else if(this.aze.img === '../assets/flag-suspect.png')
+      this.aze.img = '../assets/covered.png';
+
+    $event.preventDefault();
+  }
 
 
 
