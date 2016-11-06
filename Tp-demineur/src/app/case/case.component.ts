@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {Input} from "@angular/core/src/metadata/directives";
 import { GrilleComponent } from '../grille/grille.component.ts';
 //import { Component, enableProdMode, ViewEncapsulation } from '@angular/core';
@@ -12,6 +12,8 @@ import { GrilleComponent } from '../grille/grille.component.ts';
 export class CaseComponent implements OnInit {
 
   @Input() aze : CaseComponent;
+
+  @Output() rightClickEvetEmitter : EventEmitter<string> = new EventEmitter();
 
 
   isCached : boolean;
@@ -110,15 +112,22 @@ export class CaseComponent implements OnInit {
 
 
   public onOtherContextMenu($event: Event): void {
-    console.log("toto");
-    if(this.aze.img === '../assets/covered.png')
+    //console.log("toto");
+    if(this.aze.img === '../assets/covered.png'){
       this.aze.img = '../assets/flag-mine.png';
-    else if(this.aze.img === '../assets/flag-mine.png')
+      this.rightClickEvetEmitter.emit("dec");
+    }
+
+    else if(this.aze.img === '../assets/flag-mine.png'){
       this.aze.img = '../assets/flag-suspect.png';
+      this.rightClickEvetEmitter.emit("inc");
+    }
+
     else if(this.aze.img === '../assets/flag-suspect.png')
       this.aze.img = '../assets/covered.png';
 
     $event.preventDefault();
+
   }
 
 

@@ -3,7 +3,8 @@ import {isNumber} from "util";
 import { CaseComponent } from '../case/case.component.ts';
 import Alert = webdriver.Alert;
 import {Input, Output} from "@angular/core/src/metadata/directives";
-
+import { TimerService } from '../timer.service';
+import { FormsModule }   from '@angular/forms';
 @Component({
   selector: 'app-grille',
   templateUrl: './grille.component.html',
@@ -17,13 +18,19 @@ export class GrilleComponent implements OnInit {
   nbMine:number;
   nombreLignes:number =9;
   nombreColonnes:number=9;
-  constructor() {
+  cmptMines:number=0;
+
+
+  constructor(private _timer: TimerService) {
 
   }
 
   ngOnInit() {
     this.nbMine = 10;
    this.Champs=  this.CreerChampMines(this.nombreLignes,this.nombreColonnes);
+    this.cmptMines = this.CompteurMines();
+    this._timer.start();
+
   }
 
   CreerChampMines(numLigne: number, numCol: number): CaseComponent[][]{
@@ -332,6 +339,7 @@ export class GrilleComponent implements OnInit {
 // pour vérifier si le jouer a gagné ou pas !
   verif(){
     if(this.estGagne(this.nbMine)) {
+
       alert("VOUS AVEZ GAGNE!!!");
     }
   }
@@ -387,16 +395,69 @@ export class GrilleComponent implements OnInit {
   estPerdu(){
     for(let i=0; i < this.Champs.length; i++){
       for(let j=0; j<this.Champs[0].length; j++){
-        if(this.Champs[i][j].isCached === true && this.Champs[i][j].content === 'mine'){
-          this.Champs[i][j].img = '../assets/mine.png';
+        if(this.Champs[i][j].isCached === true){
+
+          if(this.Champs[i][j].content === 'mine')
+            this.Champs[i][j].img = '../assets/mine.png';
+
+          else if(this.Champs[i][j].img === '../assets/flag-mine.png' && this.Champs[i][j].content != 'mine'){
+            this.Champs[i][j].img = '../assets/flag-mine-wrong.png';
+          }
         }
       }
     }
+
     alert("VOUS AVEZ PERDU :( :( !!!");
   }
 
   NouvellePartie(){
+    this._timer.reset();
+    this.nbMine = 10;
     this.Champs=  this.CreerChampMines(this.nombreLignes,this.nombreColonnes);
+    this.cmptMines = this.CompteurMines();
+  }
+
+  Intermediaire(){
+    this._timer.reset();
+    this.nbMine = 35;
+    this.Champs=  this.CreerChampMines(15,15);
+    this.cmptMines = this.CompteurMines();
+  }
+
+  Professionnel(){
+    this._timer.reset();
+    this.nbMine = 75;
+    this.Champs=  this.CreerChampMines(20,20);
+    this.cmptMines = this.CompteurMines();
+  }
+
+
+  CompteurMines():number{
+    let cmp:number = 0
+    for(let i=0; i < this.Champs.length; i++){
+      for(let j=0; j<this.Champs[0].length; j++){
+          if(this.Champs[i][j].content === 'mine'){
+            cmp++;
+          }
+      }
+    }
+    return cmp;
+  }
+
+  rightClickEventHandler(contenu){
+    if(contenu === 'inc'){
+      this.cmptMines++;
+    }
+
+    else if(contenu === 'dec'){
+      this.cmptMines--;
+    }
+
+  }
+
+  onSubmit(fromValue){
+    alert(fromValue);
+    console.log(fromValue.nbrRow);
   }
 }
 

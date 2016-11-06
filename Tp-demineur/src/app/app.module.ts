@@ -6,6 +6,8 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { GrilleComponent } from './grille/grille.component';
 import { CaseComponent } from './case/case.component';
+import {TimerService } from './timer.service';
+
 
 @NgModule({
   declarations: [
@@ -18,7 +20,7 @@ import { CaseComponent } from './case/case.component';
     FormsModule,
     HttpModule
   ],
-  providers: [],
+  providers: [TimerService],
   bootstrap: [AppComponent],
 
 })

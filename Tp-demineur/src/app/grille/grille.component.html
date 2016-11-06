@@ -1,12 +1,31 @@
+<div class="col-lg-12">
+  <div class="col-lg-1"></div>
+  <div class="col-lg-3" id="np">
+    <div class="row"><h1>Nouvelle Partie</h1></div>
+    <div class="row">
+      <button (click)="NouvellePartie()" type="button" class="btn btn-primary">Débutant</button>
+      <button (click)="Intermediaire()" type="button" class="btn btn-primary">Intermidiaire</button>
+      <button (click)="Professionnel()" type="button" class="btn btn-primary">Professionnel</button>
+    </div>
 
-<div class="row">
+  </div>
+  <div class="col-lg-5" id="grl">
     <div class="row" *ngFor="let maligne of this.Champs let i = index">
-      <div class="col-lg-4 col-lg-push-5" *ngFor="let _case of maligne let j = index" >
-        <app-case [aze]="_case" (click)="this.Champs=click2(i,j); verif()"  ></app-case><!-- [aze]="_case"-->
+      <div class="col-lg-4" *ngFor="let _case of maligne let j = index" >
+        <app-case (rightClickEvetEmitter)="rightClickEventHandler($event);" [aze]="_case" (click)="this.Champs=click2(i,j); verif()"  ></app-case><!-- [aze]="_case"-->
       </div>
     </div>
+  </div>
+
+
+  <div class="col-lg-3" id="np">
+    <h2> Nombre de mines restantes  :<span class="label label-danger"> {{this.cmptMines}} </span> </h2>
+    <h2>
+      <span class="label label-primary">{{_timer.minutes}}</span> minutes
+      <span class="label label-primary">{{_timer.secondes}}</span> secondes
+    </h2>
+  </div>
 </div>
-<div class="row" id="np">
-  <button (click)="NouvellePartie()" type="button" class="btn btn-primary">Nouvelle Partie</button>
-</div>
+
+
 
